@@ -1,23 +1,19 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
+from django.test import TransactionTestCase, Client
+from django.core.urlresolvers import reverse
+from nose.tools import istest, assert_equal
+from main.models import Spirit, Message
+from profiles.models import Contributor
+from lib.flameforged.testhelper import Factory
 
-Replace these with more appropriate tests for your application.
-"""
 
-from django.test import TestCase
+class SmokeTest(TransactionTestCase):
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
-
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
-
->>> 1 + 1 == 2
-True
-"""}
+    def setUp(self):
+        self.spirits = [Factory.spirit(), Factory.spirit()]
+        
+    @istest
+    def spirit_listing(self):
+        client = Client()
+        response = client.get(reverse('list_spirits'))
+        assert_equal(response.status_code, 200)
 
