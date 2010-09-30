@@ -1,4 +1,6 @@
 import os, math
+from django.contrib.auth.models import User
+from django.test import Client
 from datetime import date
 from random import randint, shuffle
 from base64 import b64encode
@@ -12,6 +14,18 @@ def rand_str(n):
 
 class Factory(object):
     
+    @classmethod
+    def get_authenticated_contributor(cls, contributor=None, client=None):
+        client = client or Client()
+        contributor = contributor or cls.contributor()
+        
+        passwd = rand_str(8)
+        contributor.user.set_password(passwd)
+        contributor.user.save()
+
+        assert client.login(username=contributor.user.username, password=passwd)
+        return client
+
     @classmethod
     def spirit(cls, name=None):
         name = name or rand_str(10)
