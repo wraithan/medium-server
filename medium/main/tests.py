@@ -26,6 +26,7 @@ class ContributingTest(TestCase):
         contributor = Factory.contributor()
         Factory.get_authenticated_contributor(contributor=contributor, client=self.client)
         spirit = Factory.spirit()
+        assert not spirit.message_set.all()
 
         response = self.client.post(reverse('message_add', 
                                             kwargs={'spirit':spirit.slug}),
@@ -34,3 +35,7 @@ class ContributingTest(TestCase):
                 u'author': '',
                 })
         assert_equal(response.status_code, 200)
+
+        spirit = Spirit.objects.get(id=spirit.id)
+
+        assert spirit.message_set.all()
