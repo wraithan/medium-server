@@ -1,4 +1,9 @@
-# Django settings for medium project.
+from os.path import abspath, dirname, join
+import sys
+
+PROJECT_ROOT = abspath(join(dirname(__file__), '..'))
+sys.path.insert(0, abspath(PROJECT_ROOT + '/../'))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
