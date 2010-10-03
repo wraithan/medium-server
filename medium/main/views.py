@@ -9,6 +9,13 @@ def list_spirits(request):
     spirit_list = Spirit.objects.all()
     return locals()
 
+@render_to('main/spirit_random_message.html')
+def spirit_random_message(request, spirit):
+    spirit = get_object_or_404(Spirit, slug=spirit)
+    message = spirit.message_set.all().order_by('?')[0]
+    return {'message': message}
+
+@login_required
 @render_to('main/message_add.html')
 def message_add(request, spirit):
     spirit = get_object_or_404(Spirit, slug=spirit)

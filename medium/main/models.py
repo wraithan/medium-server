@@ -11,6 +11,9 @@ class Spirit(models.Model):
             self.slug = slugify(self.name)
         super(Spirit, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Message(models.Model):
     content = models.TextField()
@@ -18,3 +21,6 @@ class Message(models.Model):
     contributor = models.ForeignKey("profiles.Contributor")
     added_on = models.DateField(default=date.today)
     spirit = models.ForeignKey(Spirit)
+
+    def __unicode__(self):
+        return "%s - %s - %s" % (self.content, self.author, self.spirit)

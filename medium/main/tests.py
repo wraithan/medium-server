@@ -12,8 +12,15 @@ class SmokeTest(TestCase):
         pass
 
     def test_spirit_listing(self):
-        self.spirits = [Factory.spirit(), Factory.spirit()]
+        spirit = Factory.spirit()
         response = self.client.get(reverse('list_spirits'))
+        assert_equal(response.status_code, 200)
+
+    def test_spirit_random_message(self):
+        spirit = Factory.spirit()
+        message = Factory.message(spirit=spirit)
+        response = self.client.get(reverse('spirit_random_message',
+                                           kwargs={'spirit':spirit.slug}))
         assert_equal(response.status_code, 200)
 
 
