@@ -2,6 +2,8 @@ from os.path import abspath, dirname, join
 import sys
 
 PROJECT_ROOT = abspath(join(dirname(__file__), '..'))
+TEMPLATE_DIRS = (abspath(join(PROJECT_ROOT, "templates")),)
+
 sys.path.insert(0, abspath(PROJECT_ROOT + '/../'))
 
 
@@ -72,12 +74,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'medium.urls'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,14 +82,19 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'profiles',
     'main',
+    'registration',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
+
 AUTH_PROFILE_MODULE = "profiles.Contributor"
 
 TEST_RUNNER = "django_nose.NoseTestSuiteRunner"
 
 NOSE_ARGS = ("-s",)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

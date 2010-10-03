@@ -2,6 +2,7 @@ from main.models import Spirit
 from main.forms import MessageForm
 from lib.flameforged.helpers import render_to
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 @render_to('main/list_spirits.html')
 def list_spirits(request):
