@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
 <form method="POST" id="message_form" action="{% url message_add spirit.slug %}">{% csrf_token %}
   {{ message_form }}
 </form>
+{% endblock %}

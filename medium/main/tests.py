@@ -4,7 +4,7 @@ from nose.tools import istest, assert_equal
 from main.models import Spirit, Message
 from profiles.models import Contributor
 from lib.flameforged.testhelper import Factory
-
+import json
 
 class SmokeTest(TestCase):
 
@@ -17,11 +17,26 @@ class SmokeTest(TestCase):
         assert_equal(response.status_code, 200)
 
     def test_spirit_random_message(self):
-        spirit = Factory.spirit()
-        message = Factory.message(spirit=spirit)
+        message = Factory.message(status=Message.Status.LIVE)
         response = self.client.get(reverse('spirit_random_message',
-                                           kwargs={'spirit':spirit.slug}))
+                                           kwargs={'spirit':message.spirit.slug}))
         assert_equal(response.status_code, 200)
+
+    def test_message_db_json(self):
+        spirit1 = Factory.spirit()
+        message1 = Factory.message(spirit=spirit1, status=Message.Status.LIVE)
+        message2 = Factory.message(spirit=spirit1, status=Message.Status.LIVE)
+        spirit2 = Factory.spirit()
+        message3 = Factory.message(spirit=spirit1, status=Message.Status.LIVE)
+        message4 = Factory.message(spirit=spirit2, status=Message.Status.LIVE)
+        response = self.client.post(reverse('message_db_json'),
+                                    {
+                u'spirits': (spirit1.name, spirit2.name),
+                })
+        db = json.loads(response.content)
+        assert_equal(db['result'], 'ok')
+        assert spirit1.name in db.keys()
+        assert spirit2.name in db.keys()
 
 
 class ContributingTest(TestCase):
@@ -45,4 +60,4 @@ class ContributingTest(TestCase):
 
         spirit = Spirit.objects.get(id=spirit.id)
 
-        assert spirit.message_set.all()
+        assert spirit.message_set.filter(status=Message.Status.PENDING)

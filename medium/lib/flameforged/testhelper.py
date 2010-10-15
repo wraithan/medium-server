@@ -9,7 +9,7 @@ from profiles.models import Contributor
 
 
 def rand_str(n):
-    return b64encode(os.urandom(int(math.ceil(0.75*n))),'-_&')[:n]
+    return b64encode(os.urandom(int(math.ceil(0.75*n))))[:n]
 
 
 class Factory(object):
@@ -32,13 +32,14 @@ class Factory(object):
         return Spirit.objects.create(name=name)
 
     @classmethod
-    def message(cls, content=None, author=None, contributor=None, added_on=None, spirit=None):
+    def message(cls, content=None, author=None, contributor=None, added_on=None, spirit=None, status=None):
         content = content or rand_str(20)
         author = author
         contributor = contributor or cls.contributor()
         added_on = added_on or date.today()
         spirit = spirit or cls.spirit()
-        return Message.objects.create(content=content, author=author, contributor=contributor, added_on=added_on, spirit=spirit)
+        status = status or Message.Status.PENDING
+        return Message.objects.create(content=content, author=author, contributor=contributor, added_on=added_on, spirit=spirit, status=status)
 
     @classmethod
     def contributor(cls, user=None):

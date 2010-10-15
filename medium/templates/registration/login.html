@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -18,3 +20,5 @@
 <input type="submit" value="login" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+<a href="{% url registration_register %}">New User</a> <a href="{% url auth_password_reset %}">Forgot Password</a>
+{% endblock %}

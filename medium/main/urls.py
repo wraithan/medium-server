@@ -18,5 +18,8 @@ urlpatterns = parser.patterns('',
                               url(r'{spirit:slug}/random',
                                   views.spirit_random_message,
                                   name='spirit_random_message'),
-                              
+
+                              url(r'message-db.json',
+                                  views.message_db_json,
+                                  name='message_db_json'),
 )

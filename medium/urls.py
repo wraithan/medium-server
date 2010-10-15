@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 from registration.views import activate
 from registration.views import register
 from profiles.models import Contributor
+from profiles import views as profiles_views
 
 urlpatterns = patterns('',
                        url(r'^', include('medium.main.urls')),
@@ -49,4 +50,11 @@ urlpatterns += patterns('',
                             direct_to_template,
                             {'template': 'registration/registration_complete.html'},
                             name='registration_complete'),
+                        url(r'^$',
+                            direct_to_template,
+                            {'template': 'index.html'},
+                            name='index'),
+                        url(r'^accounts/profile/$',
+                            profiles_views.profile,
+                            name='accounts_profile'),
                         )

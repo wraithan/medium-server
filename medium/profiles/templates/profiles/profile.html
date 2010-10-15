@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+{% for spirit in messages %}
+<ul>
+  {{ spirit.name }}
+  {% for message in spirit.messages %}
+  <li>{{ message.content }}</li>
+  {% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

@@ -1,3 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
 {% for spirit in spirit_list %}
+<div>
 {{ spirit.name }}
+<ul>
+  <li><a href="{% url spirit_random_message spirit.slug %}">Random Message</a></li>
+  <li><a href="{% url message_add spirit.slug %}">Add Message</a></li>
+</ul>
+</div>
 {% endfor %}
+{% endblock %}
