@@ -1,0 +1,8 @@
+Django
+-e git+http://github.com/outofculture/django-nose.git@ae9dfee2389b278e40f39a741fd7edcaa0a68470#egg=django_nose
+django-registration
+django-selector
+nose
+psycopg2
+fabric
+gunicorn
